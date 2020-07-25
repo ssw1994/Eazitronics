@@ -1,0 +1,22 @@
+<ng-template #Profile let-profile="profile">
+  <app-profile [profile]="profile"></app-profile>
+</ng-template>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>Profiles</ion-list-header>
+    <ng-container
+      *ngFor="let profile of profiles"
+      [ngTemplateOutlet]="Profile"
+      [ngTemplateOutletContext]="{profile:profile}"
+    >
+    </ng-container>
+    <!-- <ion-item *ngFor="let profile of profiles;let i = index">
+      <app-profile [profile]="profile"></app-profile>
+    </ion-item> -->
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

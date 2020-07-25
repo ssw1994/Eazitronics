@@ -1,5 +1,7 @@
 {
   "name": "Eazetronics",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
