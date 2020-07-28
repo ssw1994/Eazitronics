@@ -1,0 +1,10 @@
+
+<ion-content>
+  <ion-col size="12">
+    <ion-row>
+      <ion-col [size]="12/all_devices.length" *ngFor="let device of all_devices;let i = index;">
+        <app-listing [CosecDevice]="device"></app-listing>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-content>

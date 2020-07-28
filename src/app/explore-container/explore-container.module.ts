@@ -6,9 +6,12 @@ import { IonicModule } from '@ionic/angular';
 
 import { ListingComponent } from "./listing/listing.component";
 import { ProfileComponent } from "./profile/profile.component";
+import { DeviceContainerComponent } from "./device-container/device-container.component";
+import { FilterPipe } from '../libs/pipes';
+
 @NgModule({
   imports: [ CommonModule, FormsModule, IonicModule],
-  declarations: [ListingComponent,ProfileComponent],
-  exports: [ListingComponent,ProfileComponent]
+  declarations: [ListingComponent,ProfileComponent,DeviceContainerComponent,FilterPipe],
+  exports: [ListingComponent,ProfileComponent,DeviceContainerComponent]
 })
 export class ExploreContainerComponentModule {}

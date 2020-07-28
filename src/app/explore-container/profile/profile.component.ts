@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Profile } from "src/app/libs/models";
+import { Profile, EventData } from "src/app/libs/models";
 
 @Component({
   selector: "app-profile",
@@ -8,7 +8,7 @@ import { Profile } from "src/app/libs/models";
 })
 export class ProfileComponent implements OnInit {
   @Input()
-  profile: Profile = {} as Profile;
+  profile: Profile|EventData = {} as EventData;
 
   @Output()
   itemClick: EventEmitter<any> = new EventEmitter<any>();

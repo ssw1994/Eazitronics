@@ -1,12 +1,25 @@
-export interface SocketConfig{
-    senderIp:string;
-    senderPort:string;
-    reciverIp:string;
-    receiverPort:string|number;
+import { Socket } from "ngx-socket-io";
+
+export interface Profile {
+  profileImage: string;
+  profileName: string;
+  profileCode: string | number;
 }
 
-export interface Profile{
-    profileImage:string;
-    profileName:string;
-    profileCode:string|number;
+export interface SocketConfig {
+  config: {
+    url: string;
+    options: any;
+  };
+  socket: Socket;
+  id:number;
+}
+
+export interface EventData {
+  Event_Sequence_Number: number;
+  Punch_Date: number;
+  Punch_Time: number;
+  Event_ID: number;
+  Employee_Code: number;
+  Device_ID:number;
 }

@@ -1,9 +1,10 @@
 <ion-item>
-  <ion-thumbnail slot="start">
+  <!-- <ion-thumbnail slot="start">
     <img [src]="profile.profileImage" />
   </ion-thumbnail>
   <ion-label>
     <h1>{{profile?.profileName}}</h1>
     <p>{{profile?.profileCode}}</p>
-  </ion-label>
+  </ion-label> -->
+  {{profile|json}}
 </ion-item>
