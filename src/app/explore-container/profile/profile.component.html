@@ -1,10 +1,10 @@
 <ion-item>
-  <!-- <ion-thumbnail slot="start">
-    <img [src]="profile.profileImage" />
+  <ion-thumbnail slot="start">
+    <img [src]="image(profile?.ImageData)" />
   </ion-thumbnail>
   <ion-label>
-    <h1>{{profile?.profileName}}</h1>
-    <p>{{profile?.profileCode}}</p>
-  </ion-label> -->
-  {{profile|json}}
+    <h1>{{profile?.UserName}}</h1>
+    <p>{{profile?.UserId}}
+    </p>
+  </ion-label>
 </ion-item>

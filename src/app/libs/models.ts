@@ -15,11 +15,14 @@ export interface SocketConfig {
   id:number;
 }
 
-export interface EventData {
-  Event_Sequence_Number: number;
-  Punch_Date: number;
-  Punch_Time: number;
-  Event_ID: number;
-  Employee_Code: number;
-  Device_ID:number;
+export interface EventData{
+  UserId:number|string;
+  UserName:string;
+  FullName:string;
+  MasterControllerId:number|string;
+  DoorControllerId:number|string;
+  InOut:string;
+  EventDateTime:number;
+  ImageData:Array<any>,
+  Remark:string;
 }

@@ -6,4 +6,12 @@
   </ion-header>
 
   <!-- Component Goes Here -->
+  <div class="settings">
+    <ion-item>
+      <ion-input placeholder="WebSocket URL" [(ngModel)]="websocketUrl"></ion-input>
+    </ion-item>
+    <ion-button color="primary" (click)="updateWebSocketUrl()">Update Socket</ion-button>  
+  </div>
+  
+
 </ion-content>

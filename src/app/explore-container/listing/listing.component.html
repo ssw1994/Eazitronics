@@ -1,11 +1,13 @@
 <ng-template #Profile let-profile="profile">
   <app-profile [profile]="profile"></app-profile>
 </ng-template>
-
+<div>
+  {{connected|json}}
+</div>
 <ion-list>
-  <ion-list-header>Profiles</ion-list-header>
+  <!-- <ion-list-header>Profiles</ion-list-header> |filter:CosecDevice.id;"-->
   <ng-container
-    *ngFor="let profile of profiles|filter:CosecDevice.id;"
+    *ngFor="let profile of profiles"
     [ngTemplateOutlet]="Profile"
     [ngTemplateOutletContext]="{profile:profile}"
   >

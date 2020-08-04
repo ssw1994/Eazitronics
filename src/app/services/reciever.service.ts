@@ -10,23 +10,19 @@ import { EventData } from "../libs/models";
 })
 export class RecieverService {
   listeners: any = {};
+  socketUrl:string = null;
   constructor(private http: HttpClient, private socket: Socket) {}
 
   user_access_allowed(): Observable<EventData> {
-    return this.socket.fromEvent(events.user_access_allowed.toString()).pipe(
-      map((iObj: {deviceId:number,data:string}) => {
-        let eventInfo: Array<number | string> = iObj.data.split("&");
-        let obj: EventData = {
-          Event_Sequence_Number: <number>eventInfo[1],
-          Punch_Date: <number>eventInfo[3],
-          Punch_Time: <number>eventInfo[4],
-          Event_ID: <number>eventInfo[5],
-          Employee_Code: <number>eventInfo[6],
-          Device_ID:iObj.deviceId
-        };
-        return obj;
-      })
+    return this.socket.fromEvent(events.DATA_RECEIVED.toString()).pipe(
+      map((iObj: any) => iObj)
     );
+  }
+
+  ondata(){
+    return this.socket.fromEvent("message").pipe(
+      map((iObj:any)=>iObj)
+    )
   }
 
   door_held_open_too_long() {}
