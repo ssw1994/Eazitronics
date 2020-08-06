@@ -1,0 +1,19 @@
+.socket-creator {
+  .header {
+    display: block;
+    background: blue;
+    font-family: courier;
+    padding: 15px;
+    color: white;
+    font-size: 20px;
+
+    ion-label {
+      position: relative;
+      top: 12px;
+    }
+
+    ion-button {
+      float: right;
+    }
+  }
+}

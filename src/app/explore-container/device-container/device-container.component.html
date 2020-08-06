@@ -1,4 +1,13 @@
-<ion-content>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    class="ion-fab-create"
+  >
+    <ion-fab-button>
+      <ion-icon name="add" (click)="presentModal()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-col size="12">
     <ion-row style="margin-top: 40px;">
       <ion-col
@@ -9,4 +18,3 @@
       </ion-col>
     </ion-row>
   </ion-col>
-</ion-content>

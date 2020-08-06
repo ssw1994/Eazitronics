@@ -16,7 +16,7 @@ export class Global {
   //public static url = "http://localhost:3000";
   //public static url = "https://obscure-citadel-65931.herokuapp.com/";
   //public static url = "ws://10.40.33.250:8088";
-  public static url = "ws://192.168.225.79:11009";   
+  public static url = "ws://192.168.1.136:8088";   
   public static devices: Array<SocketConfig> = [
     {
       socket: null,

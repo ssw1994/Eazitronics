@@ -12,6 +12,7 @@ import { IonInfiniteScroll } from "@ionic/angular";
 import { FilterPipe } from "../../libs/pipes";
 import { NgxWebsocketService } from "ngx-websocket";
 import { Global } from "src/app/libs/global";
+import { ConfigSocket } from "../createsocket/createsocket.component";
 
 export class DummyProfle implements Profile {
   profileImage: string;
@@ -44,7 +45,7 @@ export class ListingComponent implements OnInit {
   error: any = {};
   connected: any = {};
   @Input()
-  CosecDevice: SocketConfig;
+  CosecDevice: ConfigSocket;
   constructor(
     private service: RecieverService,
     private socketSer: NgxWebsocketService
@@ -58,20 +59,14 @@ export class ListingComponent implements OnInit {
     }
   }
 
-  open(socketConfig: SocketConfig): void {
-    if (
-      this.service.socketUrl &&
-      this.service.socketUrl != socketConfig.config.url
-    ) {
-      socketConfig.config.url = this.service.socketUrl;
-    }
+  open(socketConfig: ConfigSocket): void {
     this.socket = this.socketSer
-      .open(socketConfig.config.url)
+      .open(socketConfig.websocketUrl +":" + socketConfig.websocketPort)
       .on("open", (data, socket, event) => {
         //socket.send("message");
         this.connected = {
           connected: true,
-          socket: socketConfig.config.url,
+          socket: socketConfig.websocketUrl,
           data: data,
         };
       })
@@ -82,17 +77,17 @@ export class ListingComponent implements OnInit {
           //alert("data received" + JSON.stringify(data));
           this.profiles = [...this.profiles, data];
         },
-        socketConfig.id
+        socketConfig.controllerId
       )
       .on("error", (data, socket) => {
         console.error("error");
         // alert("error" + JSON.stringify(data));
         this.connected = {
           connected: false,
-          socket: socketConfig.config.url,
+          socket: socketConfig.websocketUrl,
           data: data,
         };
-        socket.clean(socketConfig.id); //remove onmessage listener by id.
+        socket.clean(socketConfig.controllerId); //remove onmessage listener by id.
       })
       .on("close", (data) => {
         //alert("Socket closed" + JSON.stringify(data));
@@ -100,28 +95,8 @@ export class ListingComponent implements OnInit {
       });
   }
 
-  subscriptionsArray: Array<any> = [];
-  subscriptions() {
-    let user_access_allowed = this.service
-      .user_access_allowed()
-      .subscribe((data: EventData) => {
-        console.log(data);
-        this.profiles = [...this.profiles, data];
-      });
 
-    let ondata = this.service.ondata().subscribe((data: EventData) => {
-      console.log(data);
-      this.profiles = [...this.profiles, data];
-    });
-
-    this.subscriptionsArray.push(user_access_allowed);
-    this.subscriptionsArray.push(ondata);
-  }
-
-  createSocket(socketConfig: SocketConfig) {
-    // this.socket = new Socket(scoketConfig.config);
-    // this.socket.connect();
-    // this.subscriptions();
+  createSocket(socketConfig: ConfigSocket) {
     this.open(socketConfig);
   }
 
@@ -139,21 +114,13 @@ export class ListingComponent implements OnInit {
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        // for (var i = 0; i < 10; i++) {
-        //   this.profiles.push(new DummyProfle());
-        // }
-
         console.log("Async operation has ended");
         resolve();
       }, 500);
     });
   }
 
-  ionViewWillEnter() {
-    if (this.CosecDevice) {
-      this.open(this.CosecDevice);
-    }
-  }
+  ionViewWillEnter() {}
 
   ngOnInit() {
     // this.service.getMessage().subscribe((header) => {
@@ -161,9 +128,6 @@ export class ListingComponent implements OnInit {
     //   console.log(this.list_header);
     // });
     // this.service.sendAck({ acknowlege: "EVT_ACK&1000" });
-    if(this.CosecDevice){
-      this.open(this.CosecDevice);
-    }
   }
 
   ionViewWillLeave() {
