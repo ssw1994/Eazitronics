@@ -37,7 +37,7 @@ export class DummyProfle implements Profile {
   providers: [FilterPipe],
 })
 export class ListingComponent implements OnInit {
-  profiles: EventData[] = [];
+  profiles: any[] = [];
   list_header: string = "Profiles";
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
@@ -60,41 +60,86 @@ export class ListingComponent implements OnInit {
   }
 
   open(socketConfig: ConfigSocket): void {
-    this.socket = this.socketSer
-      .open(socketConfig.websocketUrl +":" + socketConfig.websocketPort)
-      .on("open", (data, socket, event) => {
-        //socket.send("message");
-        this.connected = {
-          connected: true,
-          socket: socketConfig.websocketUrl,
-          data: data,
-        };
-      })
-      .on(
-        "message",
-        (data: EventData) => {
-          console.log(data);
-          //alert("data received" + JSON.stringify(data));
-          this.profiles = [...this.profiles, data];
-        },
-        socketConfig.controllerId
-      )
-      .on("error", (data, socket) => {
-        console.error("error");
-        // alert("error" + JSON.stringify(data));
-        this.connected = {
-          connected: false,
-          socket: socketConfig.websocketUrl,
-          data: data,
-        };
-        socket.clean(socketConfig.controllerId); //remove onmessage listener by id.
-      })
-      .on("close", (data) => {
-        //alert("Socket closed" + JSON.stringify(data));
-        console.warn("closed");
-      });
-  }
+    let socketstr:string;
+    if(socketConfig.isUrlOnly)
+      socketstr = `${socketConfig.websocketUrl}`;
+    else
+      socketstr = `ws://${socketConfig.websocketUrl}:${socketConfig.websocketPort}`;
+    const doc = `
+    <html>
+        <body>
+            <script>
+                const ws = new WebSocket("${socketstr}")
+                ws.onopen = () => parent.postMessage("open", "*")
+                window.onmessage = ({data}) => ws.OPEN && ws.send(data)
+                ws.onmessage = ({data}) => parent.postMessage(data, "*")
+            </script> 
+        </body>
+    </html>
+  `;
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = `data:text/html;base64,${btoa(doc)}`;
+    document.getElementById("iframeDiv").appendChild(iframe);
 
+    iframe.onload = () => {
+      // Receive responses from websocket via iframe
+      window.onmessage = ({ data }) => {
+        console.log(`Received: ${data}`);
+        this.profiles = [...this.profiles, data];
+      };
+
+      // Send requests to websocket via iframe
+      //iframe.contentWindow.postMessage(JSON.stringify({ foo: 'bar' }), '*');
+    };
+    //let ws = new WebSocket(socketstr);
+    // ws.onopen = () => {
+    //   this.connected = {
+    //     connected: "opened",
+    //     socket: socketstr,
+    //     error: false,
+    //   };
+    // };
+    // ws.onmessage = (wsdata) => {
+    //   console.log(wsdata);
+    //   this.profiles = [...this.profiles, JSON.parse(wsdata.data)];
+    // };
+    // this.socket = this.socketSer
+    //   .open(socketConfig.websocketUrl +":" + socketConfig.websocketPort)
+    //   .on("open", (data, socket, event) => {
+    //     //socket.send("message");
+    //     this.connected = {
+    //       connected: true,
+    //       socket: socketConfig.websocketUrl,
+    //       data: data,
+    //     };
+
+    //     parent.postMessage("open", "*")
+    //   })
+    //   .on(
+    //     "message",
+    //     (data: EventData) => {
+    //       console.log(data);
+    //       //alert("data received" + JSON.stringify(data));
+    //       this.profiles = [...this.profiles, data];
+    //     },
+    //     socketConfig.controllerId
+    //   )
+    //   .on("error", (data, socket) => {
+    //     console.error("error");
+    //     // alert("error" + JSON.stringify(data));
+    //     this.connected = {
+    //       connected: false,
+    //       socket: socketConfig.websocketUrl,
+    //       data: data,
+    //     };
+    //     socket.clean(socketConfig.controllerId); //remove onmessage listener by id.
+    //   })
+    //   .on("close", (data) => {
+    //     //alert("Socket closed" + JSON.stringify(data));
+    //     console.warn("closed");
+    //   });
+  }
 
   createSocket(socketConfig: ConfigSocket) {
     this.open(socketConfig);

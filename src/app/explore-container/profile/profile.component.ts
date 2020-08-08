@@ -16,6 +16,14 @@ export class ProfileComponent implements OnInit {
 
   constructor() {}
 
+  getInitials(name:string):string{
+    try {
+      return name ? name.split(' ').map((x)=>x[0].toUpperCase()).join('') : "";
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   image(data) {
     try {
       let img64 = base64String(data);

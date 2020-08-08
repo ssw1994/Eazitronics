@@ -1,10 +1,14 @@
 <ion-item>
-  <ion-thumbnail slot="start">
+  <ion-thumbnail slot="start" *ngIf="profile?.ImageData">
     <img [src]="image(profile?.ImageData)" />
   </ion-thumbnail>
+  <div class="avatar-circle">
+    <span class="initials">{{getInitials(profile?.UserName)}}</span>
+  </div>
   <ion-label>
     <h1>{{profile?.UserName}}</h1>
     <p>{{profile?.UserId}}
     </p>
   </ion-label>
+  {{profile|json}}
 </ion-item>

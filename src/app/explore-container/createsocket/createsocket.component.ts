@@ -6,6 +6,7 @@ export interface ConfigSocket {
   websocketUrl: string;
   websocketPort: number | string;
   controllerId: number | string;
+  isUrlOnly?:boolean;
 }
 @Component({
   selector: "app-createsocket",

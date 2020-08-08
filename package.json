@@ -25,7 +25,8 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "@ngrx/store": "^9.2.0",
-    "cordova-android": "8.1.0",
+    "angular-cli-ghpages": "^0.6.2",
+    "cordova-android": "^8.1.0",
     "cordova-plugin-chrome-apps-sockets-tcp": "^1.3.7",
     "cordova-plugin-networkinterface": "^2.0.0",
     "cordova-plugin-socket-tcp": "^1.6.0",
@@ -34,6 +35,7 @@
     "rxjs": "~6.5.1",
     "socket.io-client": "^2.3.0",
     "tslib": "^1.10.0",
+    "xcode": "^3.0.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -78,8 +80,6 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-networkinterface": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
